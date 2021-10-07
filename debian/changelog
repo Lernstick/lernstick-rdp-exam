@@ -1,3 +1,9 @@
+lernstick-rdp-exam (13) lernstick-11; urgency=medium
+
+  * [16cbb5] finalized support for different exam types
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 Oct 2021 12:07:09 +0200
+
 lernstick-rdp-exam (12) lernstick-11; urgency=medium
 
   * [5f0270] don't use hardcoded paths

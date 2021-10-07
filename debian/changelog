@@ -1,3 +1,9 @@
+lernstick-rdp-exam (15) lernstick-11; urgency=medium
+
+  * [378abe] fixed stopping of zenity after rdp session
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 Oct 2021 15:27:23 +0200
+
 lernstick-rdp-exam (14) lernstick-11; urgency=medium
 
   * [b91074] fixed postinst script

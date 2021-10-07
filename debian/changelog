@@ -1,3 +1,9 @@
+lernstick-rdp-exam (17) lernstick-11; urgency=medium
+
+  * [c6437c] waiting for xdg-user-dir configuration
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 Oct 2021 21:59:31 +0200
+
 lernstick-rdp-exam (16) lernstick-11; urgency=medium
 
   * [58095d] use inotifywait instead of systemd path unit for exam autostart

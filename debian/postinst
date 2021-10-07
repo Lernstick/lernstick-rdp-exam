@@ -20,7 +20,7 @@ set -e
 
 case "$1" in
     configure)
-        chmod 440 /etc/sudoers.d/03-lernstick-rdp-open-firewall
+        chmod 440 /etc/sudoers.d/03-lernstick-rdp-exam
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

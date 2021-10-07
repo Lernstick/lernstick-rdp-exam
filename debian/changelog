@@ -1,3 +1,9 @@
+lernstick-rdp-exam (18) lernstick-11; urgency=medium
+
+  * [a67849] changed autostart-exam.service target from default to graphical-session
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 Oct 2021 23:25:39 +0200
+
 lernstick-rdp-exam (17) lernstick-11; urgency=medium
 
   * [c6437c] waiting for xdg-user-dir configuration

@@ -1,5 +1,22 @@
 #!/bin/sh
 
+CONFIG_DIR="${HOME}/.config/"
+XDG_USER_DIRS_CONFIG_FILE="${CONFIG_DIR}/user-dirs.dirs"
+
+if ! [ -f "$XDG_USER_DIRS_CONFIG_FILE" ]
+then
+	echo "waiting for xdg-user-dir configuration to appear..."
+	while inotifywait -e create "$CONFIG_DIR"
+	do
+		if [ -f "$XDG_USER_DIRS_CONFIG_FILE" ]
+		then
+			echo "xdg-user-dir configuration appeared"
+			sleep 1
+			break
+		fi
+	done
+fi
+
 EXAM_DIR="$(xdg-user-dir DESKTOP)"
 EXAM_FILE="$EXAM_DIR/exam.zip"
 

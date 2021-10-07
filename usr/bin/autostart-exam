@@ -1,0 +1,22 @@
+#!/bin/sh
+
+EXAM_DIR="$(xdg-user-dir DESKTOP)"
+EXAM_FILE="$EXAM_DIR/exam.zip"
+
+while inotifywait -e create -e modify -e delete "$EXAM_DIR"
+do
+	if [ -f "$EXAM_FILE" ]
+	then
+		MD5SUM="$(md5sum "$EXAM_FILE")"
+		if [ "$MD5SUM" = "$OLD_MD5SUM" ]
+		then
+			echo "exam file unchanged"
+		else
+			echo "exam file changed, starting exam"
+			lernstick-rdp-start-exam
+		fi
+		OLD_MD5SUM="$MD5SUM"
+	else
+		OLD_MD5SUM=""
+	fi
+done

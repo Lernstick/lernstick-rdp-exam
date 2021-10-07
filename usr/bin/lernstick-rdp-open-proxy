@@ -1,0 +1,20 @@
+#!/bin/bash
+
+CONFIG="$1"
+SIGNATURE="$2"
+
+. /usr/bin/lernstick-rdp-common
+
+# check signature of config
+if ! echo -n "$CONFIG" | openssl dgst \
+	-verify /usr/share/lernstick-rdp-exam/intermed-exam-ca.pubkey \
+	-sha256 \
+	-signature "$SIGNATURE"
+then
+	# signature was invalid
+	exit 10
+fi
+
+# parse config
+parseJSONKey "$CONFIG" 'network_profile.proxy[]' > /etc/lernstick-firewall/proxy.d/web_exam.conf
+systemctl reload lernstick-firewall

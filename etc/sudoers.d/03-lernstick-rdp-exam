@@ -1,1 +1,2 @@
 user ALL=(ALL) NOPASSWD: /usr/bin/lernstick-rdp-open-firewall
+user ALL=(ALL) NOPASSWD: /usr/bin/lernstick-rdp-open-proxy

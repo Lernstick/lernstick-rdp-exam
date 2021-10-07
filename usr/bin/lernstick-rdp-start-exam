@@ -7,6 +7,8 @@
 
 set -e
 
+. /usr/bin/lernstick-rdp-common
+
 evaluateRDPScale(){
 	local customScale=$1
 	local rdpScale=100
@@ -131,13 +133,6 @@ gatherAndSendStatistics(){
 		https://campla.adm.ds.fhnw.ch/rest/statistics/Hardware
 }
 
-parseJSONKey(){
-	local json="$1"
-	local key="$2"
-	local out
-	out=$(echo "$json" | jq ".${key}" | sed -E 's/(^"|"$)//g')
-	echo -n "$out"
-}
 
 loadConfiguration(){
 	local configZip="/home/user/Schreibtisch/exam.zip"
@@ -201,6 +196,20 @@ startVMExamination(){
 	local vmPassword
 	vmPassword=$(parseJSONKey "$config" 'vm_password')
 
+	# open firewall
+	sudo lernstick-rdp-open-firewall "$EXAM_CONFIG" "$TMP_DIR/exam.config.sig"
+	EXIT_CODE=$?
+	if [ $EXIT_CODE -eq 10 ]
+	then
+		zenity --error --no-wrap --text "$(gettext "The signature of the exam configuration is invalid.")"
+		exit 1
+
+	elif [ $EXIT_CODE -ne 0 ]
+	then
+		zenity --error --no-wrap --text "$(gettext "Could not open firewall.")"
+		exit 1
+	fi
+
 	# send hardware statistics
 	gatherAndSendStatistics "$instanceId" "$instanceToken"
 
@@ -229,21 +238,21 @@ startWebExamination(){
 	instanceToken=$(parseJSONKey "$config" 'instance_token')
 	local webUrl
 	webUrl=$(parseJSONKey "$config" 'web_url')
-	local proxyRegEx
-	proxyRegEx=$(parseJSONKey "$config" 'network_profile.proxy')
 
 	# send hardware statistics
 	gatherAndSendStatistics "$instanceId" "$instanceToken"
 
-	# TODO: Configure proxy
+	# Configure proxy
+        sudo lernstick-rdp-open-proxy "$config" "$TMP_DIR/exam.config.sig"
 
 	# start firefox in kiosk mode
-	firefox --kisok --new-window "${webUrl}"
+	#firefox --kiosk --new-window "${webUrl}"
+	firefox --new-window "${webUrl}"
 }
 
 startDummyExamination(){
 	local config="$1"
-	zenity --info --no-wrap --text "$(gettext "Examination successful started.")"
+	zenity --info --no-wrap --text "$(gettext "Dummy examination started successfully.")"
 }
 
 startExamination(){
@@ -280,30 +289,13 @@ echo "RDP_SCALE: $RDP_SCALE"
 TMP_DIR=$(mktemp -d)
 EXAM_CONFIG=$(loadConfiguration "$TMP_DIR")
 
-# open firewall
-# TODO: Adaption to support new configuration format
-sudo lernstick-rdp-open-firewall "$EXAM_CONFIG" "$TMP_DIR/exam.config.sig"
-EXIT_CODE=$?
+# start examination according to the given configuration
+startExamination "$EXAM_CONFIG"
 
 # cleanup
 if [ -d "$TMP_DIR" ]
 then
 	rm -rf "$TMP_DIR"
 fi
-
-# error handling
-if [ $EXIT_CODE -eq 10 ]
-then
-	zenity --error --no-wrap --text "$(gettext "The signature of the exam configuration is invalid.")"
-	exit 1
-
-elif [ $EXIT_CODE -ne 0 ]
-then
-	zenity --error --no-wrap --text "$(gettext "Could not open firewall.")"
-	exit 1
-fi
-
-# start examination according to the given configuration
-startExamination "$EXAM_CONFIG"
 
 exit 0

@@ -1,0 +1,7 @@
+parseJSONKey(){
+	local json="$1"
+	local key="$2"
+	local out
+	out=$(echo "$json" | jq ".${key}" | sed -E 's/(^"|"$)//g')
+	echo -n "$out"
+}

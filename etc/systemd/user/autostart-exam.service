@@ -1,2 +1,4 @@
 [Service]
+Type=oneshot
+RemainAfterExit=yes
 ExecStart=/usr/bin/lernstick-rdp-start-exam

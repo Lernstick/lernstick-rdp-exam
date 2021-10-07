@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-28 20:59+0200\n"
+"POT-Creation-Date: 2021-10-07 12:01+0200\n"
 "PO-Revision-Date: 2020-03-31 13:00+0200\n"
 "Last-Translator: Ronny Standtke <ronny.standtke@gmx.net>\n"
 "Language-Team: DE <DE@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: usr/bin/lernstick-rdp-start-exam:63
+#: usr/bin/lernstick-rdp-start-exam:150
 msgid ""
 "The exam configuration was not found.\\n\\nPlease download the exam "
 "configuration\\nto your desktop."
@@ -24,14 +24,30 @@ msgstr ""
 "Die Prüfungskonfiguration konnte nicht gefunden werden.\\n\\nBitte laden Sie "
 "die Prüfungskonfiguration\\nauf Ihren Schreibtisch herunter."
 
-#: usr/bin/lernstick-rdp-start-exam:86
+#: usr/bin/lernstick-rdp-start-exam:157 usr/bin/lernstick-rdp-start-exam:164
+msgid ""
+"The exam configuration is invalid.\\n\\nPlease download the exam "
+"configuration\\nto your desktop."
+msgstr ""
+"Die Prüfungskonfiguration konnte nicht gefunden werden.\\n\\nBitte laden Sie "
+"die Prüfungskonfiguration\\nauf Ihren Schreibtisch herunter."
+
+#: usr/bin/lernstick-rdp-start-exam:176 usr/bin/lernstick-rdp-start-exam:204
 msgid "The signature of the exam configuration is invalid."
 msgstr "Die Signatur der Prüfungskonfiguration ist ungültig."
 
-#: usr/bin/lernstick-rdp-start-exam:91
+#: usr/bin/lernstick-rdp-start-exam:209
 msgid "Could not open firewall."
 msgstr "Konnte Firewall nicht öffnen."
 
-#: usr/bin/lernstick-rdp-start-exam:95
+#: usr/bin/lernstick-rdp-start-exam:216
 msgid "Starting exam, please wait..."
 msgstr "Prüfung wird gestartet, bite warten..."
+
+#: usr/bin/lernstick-rdp-start-exam:255
+msgid "Dummy examination started successfully."
+msgstr "Dummyprüfung erfolgreich gestartet."
+
+#: usr/bin/lernstick-rdp-start-exam:274
+msgid "Unknown examination type."
+msgstr "Unbekannter Prüfungstyp"

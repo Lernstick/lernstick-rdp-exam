@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-28 20:59+0200\n"
+"POT-Creation-Date: 2021-10-07 12:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: usr/bin/lernstick-rdp-start-exam:63
+#: usr/bin/lernstick-rdp-start-exam:150
 msgid ""
 "The exam configuration was not found.\\n\\nPlease download the exam "
 "configuration\\nto your desktop."
 msgstr ""
 
-#: usr/bin/lernstick-rdp-start-exam:86
+#: usr/bin/lernstick-rdp-start-exam:157 usr/bin/lernstick-rdp-start-exam:164
+msgid ""
+"The exam configuration is invalid.\\n\\nPlease download the exam "
+"configuration\\nto your desktop."
+msgstr ""
+
+#: usr/bin/lernstick-rdp-start-exam:176 usr/bin/lernstick-rdp-start-exam:204
 msgid "The signature of the exam configuration is invalid."
 msgstr ""
 
-#: usr/bin/lernstick-rdp-start-exam:91
+#: usr/bin/lernstick-rdp-start-exam:209
 msgid "Could not open firewall."
 msgstr ""
 
-#: usr/bin/lernstick-rdp-start-exam:95
+#: usr/bin/lernstick-rdp-start-exam:216
 msgid "Starting exam, please wait..."
+msgstr ""
+
+#: usr/bin/lernstick-rdp-start-exam:255
+msgid "Dummy examination started successfully."
+msgstr ""
+
+#: usr/bin/lernstick-rdp-start-exam:274
+msgid "Unknown examination type."
 msgstr ""

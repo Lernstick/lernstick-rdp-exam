@@ -5,7 +5,7 @@
 # Version     : 0.1
 # ---------------------------------------------------------------------------------------
 
-set -e
+set -eE
 
 . /usr/bin/lernstick-rdp-common
 
@@ -215,6 +215,7 @@ startVMExamination(){
 
 	zenity --progress --pulsate --no-cancel --text "$(gettext "Starting exam, please wait...")" &
 	zenityPid=$!
+	trap killZenity ERR
 
 	# start RDP connection to exam server
 	xfreerdp \
@@ -225,7 +226,9 @@ startVMExamination(){
 		/u:"${vmUser}" \
 		/p:"${vmPassword}" \
 		/v:"${vmServer}"
+}
 
+killZenity(){
 	kill $zenityPid
 }
 

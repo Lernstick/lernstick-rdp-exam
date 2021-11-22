@@ -1,3 +1,13 @@
+lernstick-rdp-exam (19) lernstick-11; urgency=medium
+
+  [ Simon Kaspar ]
+  * [19cee3] Extended hardware stats with os build information
+
+  [ Ronny Standtke ]
+  * [91181b] removed useless cat
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 22 Nov 2021 20:43:07 +0100
+
 lernstick-rdp-exam (18) lernstick-11; urgency=medium
 
   * [a67849] changed autostart-exam.service target from default to graphical-session

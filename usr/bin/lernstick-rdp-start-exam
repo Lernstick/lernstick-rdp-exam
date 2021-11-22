@@ -103,6 +103,7 @@ gatherAndSendStatistics(){
 	local tpmVersion="none"
 	local resolution="none"
 	local product="none"
+	local os="none"
 
 	if [ -c /dev/tpm0 ];then
 		hasTPM="true"
@@ -111,6 +112,11 @@ gatherAndSendStatistics(){
 			tpmVersion="2.0"
 		fi
 	fi
+	
+	if [ -e "/etc/build_info.txt" ];then
+		os=$(cat "/etc/build_info.txt" | sed ':a;N;$!ba;s/\n//g')
+	fi
+
 	resolution=$(xrandr 2>/dev/null 2>/dev/null \
 		| grep ' connected' \
 		| grep -oE "[0-9]+x[0-9]+" \
@@ -126,10 +132,11 @@ gatherAndSendStatistics(){
 	echo "resolution=\"$resolution\""
 	echo "hasTPM=\"$hasTPM\""
 	echo "tpmVersion=\"$tpmVersion\""
+	echo "os=\"$os\""
 	curl \
 		--header "Content-Type: application/json" \
 		--request POST \
-		--data "{\"auth\":{\"id\":\"${instanceId}\",\"token\":\"${instanceToken}\"},\"hardware\":{\"display\":{\"resolution\":\"${resolution}\"},\"system\":{\"product\":\"${product}\"},\"tpm\":{\"enabled\":${hasTPM},\"version\":\"${tpmVersion}\"}}}" \
+		--data "{\"auth\":{\"id\":\"${instanceId}\",\"token\":\"${instanceToken}\"},\"hardware\":{\"os\":\"${os}\", \"display\":{\"resolution\":\"${resolution}\"},\"system\":{\"product\":\"${product}\"},\"tpm\":{\"enabled\":${hasTPM},\"version\":\"${tpmVersion}\"}}}" \
 		https://campla.adm.ds.fhnw.ch/rest/statistics/Hardware
 }
 

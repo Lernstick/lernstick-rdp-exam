@@ -112,9 +112,9 @@ gatherAndSendStatistics(){
 			tpmVersion="2.0"
 		fi
 	fi
-	
+
 	if [ -e "/etc/build_info.txt" ];then
-		os=$(cat "/etc/build_info.txt" | sed ':a;N;$!ba;s/\n//g')
+		os=$(sed ':a;N;$!ba;s/\n//g' /etc/build_info.txt)
 	fi
 
 	resolution=$(xrandr 2>/dev/null 2>/dev/null \

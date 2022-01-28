@@ -2,7 +2,9 @@
   "type": "object",
   "required": [
     "version",
-    "exam_type"
+    "exam_type",
+    "name",
+    "expiration"
   ],
   "oneOf": [
     {
@@ -12,6 +14,12 @@
         },
         "exam_type": {
           "const": "dummy"
+        },
+        "name": {
+          "type": "string"
+        },
+        "expiration": {
+          "type": "integer"
         }
       },
       "additionalProperties": false
@@ -24,6 +32,12 @@
         "exam_type": {
           "const": "web"
         },
+        "name": {
+          "type": "string"
+        },
+        "expiration": {
+          "type": "integer"
+        },
         "instance_id": {
           "type": "string"
         },
@@ -33,6 +47,23 @@
         "web_url": {
           "type": "string",
           "format": "uri"
+        },
+        "lms_examination_key": {
+          "type": "string"
+        },
+        "browser_settings" : {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
         },
         "network_profile": {
           "type": "object",
@@ -57,6 +88,8 @@
       "dependentRequired": {
         "exam_type": [
           "web_url",
+          "lms_examination_key",
+          "browser_settings",
           "network_profile",
           "instance_id",
           "instance_token"
@@ -71,6 +104,12 @@
         },
         "exam_type": {
           "const": "vm"
+        },
+        "name": {
+          "type": "string"
+        },
+        "expiration": {
+          "type": "integer"
         },
         "instance_id": {
           "type": "string"

@@ -30,6 +30,35 @@
           "type": "integer"
         },
         "exam_type": {
+          "const": "local"
+        },
+        "name": {
+          "type": "string"
+        },
+        "expiration": {
+          "type": "integer"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "instance_token": {
+          "type": "string"
+        }
+      },
+      "dependentRequired": {
+        "exam_type": [
+          "instance_id",
+          "instance_token"
+        ]
+      },
+      "additionalProperties": false
+    },
+    {
+      "properties": {
+        "version": {
+          "type": "integer"
+        },
+        "exam_type": {
           "const": "web"
         },
         "name": {

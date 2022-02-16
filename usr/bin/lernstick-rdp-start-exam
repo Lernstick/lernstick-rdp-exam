@@ -96,51 +96,6 @@ checkSignature(){
 	fi
 }
 
-gatherAndSendStatistics(){
-	local instanceId="$1"
-	local instanceToken="$2"
-	local hasTPM="false"
-	local tpmVersion="none"
-	local resolution="none"
-	local product="none"
-	local os="none"
-
-	if [ -c /dev/tpm0 ];then
-		hasTPM="true"
-		tpmVersion="1.2"
-		if [ -c /dev/tpmrm0 ];then
-			tpmVersion="2.0"
-		fi
-	fi
-
-	if [ -e "/etc/build_info.txt" ];then
-		os=$(sed ':a;N;$!ba;s/\n//g' /etc/build_info.txt)
-	fi
-
-	resolution=$(xrandr 2>/dev/null 2>/dev/null \
-		| grep ' connected' \
-		| grep -oE "[0-9]+x[0-9]+" \
-		| tr -d "\n")
-	product="$(sudo lshw -quiet -c "system" \
-				| grep "product" \
-				| head -n1 \
-				| cut -d':' -f2 \
-				| sed -e 's/^ *//g' \
-				| sed -e 's/ *$//g' \
-				| tr -d "\n")"
-	echo "product=\"$product\""
-	echo "resolution=\"$resolution\""
-	echo "hasTPM=\"$hasTPM\""
-	echo "tpmVersion=\"$tpmVersion\""
-	echo "os=\"$os\""
-	curl \
-		--header "Content-Type: application/json" \
-		--request POST \
-		--data "{\"auth\":{\"id\":\"${instanceId}\",\"token\":\"${instanceToken}\"},\"hardware\":{\"os\":\"${os}\", \"display\":{\"resolution\":\"${resolution}\"},\"system\":{\"product\":\"${product}\"},\"tpm\":{\"enabled\":${hasTPM},\"version\":\"${tpmVersion}\"}}}" \
-		https://campla.adm.ds.fhnw.ch/rest/statistics/Hardware
-}
-
-
 loadConfiguration(){
 	local configZip="/home/user/Schreibtisch/exam.zip"
 	local jsonSchema="/usr/share/lernstick-rdp-exam/exam-conf-schema.json"
@@ -192,10 +147,6 @@ startVMExamination(){
 	config="$1"
 	local zenityPid
 	zenityPid=0
-	local instanceId
-	instanceId=$(parseJSONKey "$config" 'instance_id')
-	local instanceToken
-	instanceToken=$(parseJSONKey "$config" 'instance_token')
 	local vmServer
 	vmServer=$(parseJSONKey "$config" 'vm_server')
 	local vmUser
@@ -216,9 +167,6 @@ startVMExamination(){
 		zenity --error --no-wrap --text "$(gettext "Could not open firewall.")"
 		exit 1
 	fi
-
-	# send hardware statistics
-	gatherAndSendStatistics "$instanceId" "$instanceToken"
 
 	zenity --progress --pulsate --no-cancel --text "$(gettext "Starting exam, please wait...")" &
 	zenityPid=$!
@@ -242,18 +190,11 @@ killZenity(){
 startWebExamination(){
 	local config
 	config="$1"
-	local instanceId
-	instanceId=$(parseJSONKey "$config" 'instance_id')
-	local instanceToken
-	instanceToken=$(parseJSONKey "$config" 'instance_token')
 	local webUrl
 	webUrl=$(parseJSONKey "$config" 'web_url')
 
-	# send hardware statistics
-	gatherAndSendStatistics "$instanceId" "$instanceToken"
-
 	# Configure proxy
-        sudo lernstick-rdp-open-proxy "$config" "$TMP_DIR/exam.config.sig"
+    sudo lernstick-rdp-open-proxy "$config" "$TMP_DIR/exam.config.sig"
 
 	# start firefox in kiosk mode
 	#firefox --kiosk --new-window "${webUrl}"

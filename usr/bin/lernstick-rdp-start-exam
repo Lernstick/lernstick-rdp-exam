@@ -38,7 +38,7 @@ evaluateRDPScale(){
 
 		# determine scaling
 		primaryDisplay="$(xrandr | grep -w "connected primary")"
-		#printf "primary display:\\n%s\\n" "$primaryDisplay"
+		printf "primary display:\\n%s\\n" "$primaryDisplay"
 		if [ -n "$primaryDisplay" ]
 		then
 			monitorWidth=$(echo "$primaryDisplay" | sed 's/.* \(.*\)mm x .*mm/\1/g')
@@ -46,11 +46,11 @@ evaluateRDPScale(){
 			if [ "$monitorWidth" -ne 0 ]
 			then
 				screenWidth=$(echo "$primaryDisplay" | sed 's/.* primary \(.*\)x.*+.*/\1/g')
-				#echo "screen width: $screenWidth pixels"
+				echo "screen width: $screenWidth pixels"
 				dpi=$((screenWidth*254/monitorWidth/10))
-				#echo "dpi: $dpi"
+				echo "dpi: $dpi"
 				scale=$(echo "scale=2; ${dpi}/96" | bc)
-				#echo "scaling factor ($dpi/96): $scale"
+				echo "scaling factor ($dpi/96): $scale"
 				if [ "$(echo "($scale > 1.4) && ($scale <= 1.8)" | bc -l)" -eq 1 ]
 				then
 					rdpScale=140
@@ -97,7 +97,7 @@ checkSignature(){
 }
 
 loadConfiguration(){
-	local configZip="/home/user/Schreibtisch/exam.zip"
+	local configZip="/usr/share/campla-lernstick-bridge/exam.zip"
 	local jsonSchema="/usr/share/lernstick-rdp-exam/exam-conf-schema.json"
 	local signatureFile=""
 	local tmpDir="$1"
@@ -194,7 +194,7 @@ startWebExamination(){
 	webUrl=$(parseJSONKey "$config" 'web_url')
 
 	# Configure proxy
-    sudo lernstick-rdp-open-proxy "$config" "$TMP_DIR/exam.config.sig"
+    	sudo lernstick-rdp-open-proxy "$config" "$TMP_DIR/exam.config.sig"
 
 	# start firefox in kiosk mode
 	#firefox --kiosk --new-window "${webUrl}"
@@ -204,6 +204,13 @@ startWebExamination(){
 startDummyExamination(){
 	local config="$1"
 	zenity --info --no-wrap --text "$(gettext "Dummy examination started successfully.")"
+}
+
+startLocalExamination(){
+	local config="$1"
+	while true; do
+		sleep 1
+	done
 }
 
 startExamination(){
@@ -220,6 +227,9 @@ startExamination(){
 			;;
 		"vm")
 			startVMExamination "$config"
+			;;
+		"local")
+			startLocalExamination "$config"
 			;;
 		*)
 			zenity --error --no-wrap --text "$(gettext "Unknown examination type.")"

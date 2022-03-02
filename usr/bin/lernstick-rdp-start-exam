@@ -17,6 +17,7 @@ evaluateRDPScale(){
 	local screenWidth=0
 	local dpi=0
 	local scale=0
+	local uiInfo="/tmp/campla-lernstick-uiinfo.json"
 
 	if [ -n "$customScale" ]
 	then
@@ -33,32 +34,9 @@ evaluateRDPScale(){
 				;;
 		esac
 	else
-		# try calculating good RDP_SCALE
-		rdpScale=100
-
-		# determine scaling
-		primaryDisplay="$(xrandr | grep -w "connected primary")"
-		printf "primary display:\\n%s\\n" "$primaryDisplay"
-		if [ -n "$primaryDisplay" ]
+		if [ -e "${uiInfo}" ]
 		then
-			monitorWidth=$(echo "$primaryDisplay" | sed 's/.* \(.*\)mm x .*mm/\1/g')
-			#echo "monitor width: $monitorWidth mm"
-			if [ "$monitorWidth" -ne 0 ]
-			then
-				screenWidth=$(echo "$primaryDisplay" | sed 's/.* primary \(.*\)x.*+.*/\1/g')
-				echo "screen width: $screenWidth pixels"
-				dpi=$((screenWidth*254/monitorWidth/10))
-				echo "dpi: $dpi"
-				scale=$(echo "scale=2; ${dpi}/96" | bc)
-				echo "scaling factor ($dpi/96): $scale"
-				if [ "$(echo "($scale > 1.4) && ($scale <= 1.8)" | bc -l)" -eq 1 ]
-				then
-					rdpScale=140
-				elif [ "$(echo "$scale > 1.8" | bc -l)" -eq 1 ]
-				then
-					rdpScale=180
-				fi
-			fi
+			rdpScale=$(cat "${uiInfo}" | jq ".rdp_scale" | sed -E 's/(^"|"$)//g')
 		fi
 	fi
 	echo $rdpScale

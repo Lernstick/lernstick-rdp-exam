@@ -1,3 +1,15 @@
+lernstick-rdp-exam (20) lernstick-11; urgency=medium
+
+  [ Simon Kaspar ]
+  * [923bb8] Adapted exam file schema. New fields: name, expiration and for web type lms_examination_key and browser_settings
+  * [3512d6] Moved statistics update to the campla-lernstick-bridge
+  * [d469db] Added new examination type local for read only examinations
+  * [cc5e49] Fixed wrong exam file path, added new examination type local, enabled scale debugging
+  * [5ad695] Moved rdp scale calculation to campla-lernstick-bridge
+  * [622b01] Changed sudoers from user to campla
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 14 Mar 2022 00:11:30 +0100
+
 lernstick-rdp-exam (19) lernstick-11; urgency=medium
 
   [ Simon Kaspar ]

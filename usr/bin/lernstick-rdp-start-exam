@@ -9,6 +9,11 @@ set -eE
 
 . /usr/bin/lernstick-rdp-common
 
+runAsUiUser(){
+	local command="$1"
+	su -c "export DISPLAY=:0;${command}" user
+}
+
 evaluateRDPScale(){
 	local customScale=$1
 	local rdpScale=100
@@ -87,21 +92,21 @@ loadConfiguration(){
 	sleep 1
 	if [ ! -f "$configZip" ]
 	then
-		zenity --error --no-wrap --text "$(gettext "The exam configuration was not found.\\n\\nPlease download the exam configuration\\nto your desktop.")"
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration was not found.\\n\\nPlease download the exam configuration\\nto your desktop.")"'
 		exit 1
 	fi
 
 	# extract config
 	if ! unzip -d "$tmpDir" "$configZip" >/dev/null 2>&1;
 	then
-		zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.\\n\\nPlease download the exam configuration\\nto your desktop.")"
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.\\n\\nPlease download the exam configuration\\nto your desktop.")"'
 		exit 1
 	fi
 
 	# validate with json schema
 	if ! jsonschema -i "$tmpDir/exam.config" "$jsonSchema";
 	then
-		zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.\\n\\nPlease download the exam configuration\\nto your desktop.")"
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.\\n\\nPlease download the exam configuration\\nto your desktop.")"'
 		exit 1
 	fi
 
@@ -113,7 +118,7 @@ loadConfiguration(){
 	isValidSignature=$(checkSignature "$config" "$signatureFile")
 	if [ "$isValidSignature" = "1" ]
 	then
-		zenity --error --no-wrap --text "$(gettext "The signature of the exam configuration is invalid.")"
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The signature of the exam configuration is invalid.")"'
 		exit 1
 	fi
 
@@ -137,28 +142,21 @@ startVMExamination(){
 	EXIT_CODE=$?
 	if [ $EXIT_CODE -eq 10 ]
 	then
-		zenity --error --no-wrap --text "$(gettext "The signature of the exam configuration is invalid.")"
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The signature of the exam configuration is invalid.")"'
 		exit 1
 
 	elif [ $EXIT_CODE -ne 0 ]
 	then
-		zenity --error --no-wrap --text "$(gettext "Could not open firewall.")"
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "Could not open firewall.")"'
 		exit 1
 	fi
 
-	zenity --progress --pulsate --no-cancel --text "$(gettext "Starting exam, please wait...")" &
-	zenityPid=$!
-	trap killZenity ERR
+	#zenity --progress --pulsate --no-cancel --text "$(gettext "Starting exam, please wait...")" &
+	#zenityPid=$!
+	#trap killZenity ERR
 
 	# start RDP connection to exam server
-	xfreerdp \
-		-wallpaper \
-		/gdi:hw \
-		/f \
-		/scale:"$RDP_SCALE" \
-		/u:"${vmUser}" \
-		/p:"${vmPassword}" \
-		/v:"${vmServer}"
+	runAsUiUser "xfreerdp -wallpaper /gdi:hw /f /scale:\"${RDP_SCALE}\" /u:\"${vmUser}\" /p:\"${vmPassword}\" /v:\"${vmServer}\""
 }
 
 killZenity(){
@@ -176,12 +174,12 @@ startWebExamination(){
 
 	# start firefox in kiosk mode
 	#firefox --kiosk --new-window "${webUrl}"
-	firefox --new-window "${webUrl}"
+	runAsUiUser "firefox --new-window \"${webUrl}\""
 }
 
 startDummyExamination(){
 	local config="$1"
-	zenity --info --no-wrap --text "$(gettext "Dummy examination started successfully.")"
+	runAsUiUser 'zenity --info --no-wrap --text "$(gettext "Dummy examination started successfully.")"'
 }
 
 startLocalExamination(){
@@ -210,7 +208,7 @@ startExamination(){
 			startLocalExamination "$config"
 			;;
 		*)
-			zenity --error --no-wrap --text "$(gettext "Unknown examination type.")"
+			runAsUiUser 'zenity --error --no-wrap --text "$(gettext "Unknown examination type.")"'
 			exit 1
 			;;
 	esac

@@ -92,21 +92,21 @@ loadConfiguration(){
 	sleep 1
 	if [ ! -f "$configZip" ]
 	then
-		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration was not found.\\n\\nPlease download the exam configuration\\nto your desktop.")"'
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration was not found.")"'
 		exit 1
 	fi
 
 	# extract config
 	if ! unzip -d "$tmpDir" "$configZip" >/dev/null 2>&1;
 	then
-		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.\\n\\nPlease download the exam configuration\\nto your desktop.")"'
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.")"'
 		exit 1
 	fi
 
 	# validate with json schema
 	if ! jsonschema -i "$tmpDir/exam.config" "$jsonSchema";
 	then
-		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.\\n\\nPlease download the exam configuration\\nto your desktop.")"'
+		runAsUiUser 'zenity --error --no-wrap --text "$(gettext "The exam configuration is invalid.")"'
 		exit 1
 	fi
 

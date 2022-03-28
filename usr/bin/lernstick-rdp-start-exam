@@ -175,6 +175,9 @@ startWebExamination(){
 	# start firefox in kiosk mode
 	#firefox --kiosk --new-window "${webUrl}"
 	runAsUiUser "firefox --new-window \"${webUrl}\""
+	while true; do
+		sleep 1
+	done
 }
 
 startDummyExamination(){

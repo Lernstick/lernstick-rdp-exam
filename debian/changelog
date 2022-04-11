@@ -1,3 +1,14 @@
+lernstick-rdp-exam (21) lernstick-11; urgency=medium
+
+  [ Simon Kaspar ]
+  * [bd59d2] Run as campla user, user switch for ui commands
+  * [1afe7f] Adapted error messages
+  * [8fe815] Added busy waiting for fierfox
+  * [0d2218] Changed start button with campla logo and link to firefox
+  * [217823] Removed autostart service to avoid clashes
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 11 Apr 2022 12:13:02 +0200
+
 lernstick-rdp-exam (20) lernstick-11; urgency=medium
 
   [ Simon Kaspar ]

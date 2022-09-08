@@ -1,7 +1,6 @@
 [Desktop Entry]
 Categories=X-lernstick;
-Exec=bash -c "sleep 3 && firefox"
-Terminal=false
+Exec=firefox
 Icon=campla
 Name=Open CAMPLA
 Name[de]=CAMPLA öffnen

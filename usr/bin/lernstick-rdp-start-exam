@@ -9,9 +9,25 @@ set -eE
 
 . /usr/bin/lernstick-rdp-common
 
+wayland_display="wayland-0"
+xdg_runtime_dir_prefix="/run/user"
+user_id=$(id -u user)
+
+isWayland(){
+	su -c "test -e '${xdg_runtime_dir_prefix}/${user_id}/${wayland_display}'" user
+	return $?
+}
+
 runAsUiUser(){
 	local command="$1"
-	su -c "export DISPLAY=:0;${command}" user
+	local display_options="export DISPLAY=:0"
+
+	if isWayland
+	then
+		display_options="export WAYLAND_DISPLAY=${wayland_display};export XDG_RUNTIME_DIR=${xdg_runtime_dir_prefix}/${user_id}"
+	fi
+
+	su -c "${display_options};${command}" user
 }
 
 evaluateRDPScale(){
@@ -156,7 +172,15 @@ startVMExamination(){
 	#trap killZenity ERR
 
 	# start RDP connection to exam server
-	runAsUiUser "xfreerdp -wallpaper /gdi:hw /f /scale:\"${RDP_SCALE}\" /u:\"${vmUser}\" /p:\"${vmPassword}\" /v:\"${vmServer}\""
+	local freerdp
+	if isWayland
+	then
+		freerdp="wlfreerdp"
+	else
+		freerdp="xfreerdp"
+	fi
+
+	runAsUiUser "$freerdp -wallpaper /gdi:hw /f /scale:\"${RDP_SCALE}\" /u:\"${vmUser}\" /p:\"${vmPassword}\" /v:\"${vmServer}\""
 }
 
 killZenity(){

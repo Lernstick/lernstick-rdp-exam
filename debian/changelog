@@ -1,3 +1,15 @@
+lernstick-rdp-exam (22) lernstick-12; urgency=medium
+
+  [ Simon Kaspar ]
+  * Added a 3 second delay, network has a chance to be ready
+  * Removed delay
+  * Added adapted xfreerdp parameter
+
+  [ Thore Sommer ]
+  * add Wayland support
+
+ -- Thore Sommer <mail@thson.de>  Wed, 13 Sep 2023 17:07:18 +0200
+
 lernstick-rdp-exam (21) lernstick-11; urgency=medium
 
   [ Simon Kaspar ]

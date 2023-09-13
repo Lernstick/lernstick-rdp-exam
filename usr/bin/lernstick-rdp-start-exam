@@ -156,7 +156,7 @@ startVMExamination(){
 	#trap killZenity ERR
 
 	# start RDP connection to exam server
-	runAsUiUser "xfreerdp -wallpaper /gdi:hw /f /scale:\"${RDP_SCALE}\" /u:\"${vmUser}\" /p:\"${vmPassword}\" /v:\"${vmServer}\""
+	runAsUiUser "xfreerdp /network:wan -themes -wallpaper +compression /gdi:hw /f /scale:${RDP_SCALE} /u:\"${vmUser}\" /p:\"${vmPassword}\" /v:\"${vmServer}\""
 }
 
 killZenity(){
@@ -239,3 +239,4 @@ then
 fi
 
 exit 0
+

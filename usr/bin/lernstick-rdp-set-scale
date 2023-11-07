@@ -1,0 +1,15 @@
+#!/bin/bash
+
+scales=(0 100% 120% 140%)
+scale=$(/usr/bin/zenity --entry --title "Set RDP display scale" --text "${scales[@]}" --text "Set preferred display scale")
+configFile="/tmp/campla-custom-config.json"
+
+case "$scale" in
+	"100%") echo -n "{\"rdp_scale\": 100}" > "${configFile}.tmp";;
+	"120%") echo -n "{\"rdp_scale\": 120}" > "${configFile}.tmp";;
+	"140%") echo -n "{\"rdp_scale\": 140}" > "${configFile}.tmp";;
+esac
+
+if [ -f "${configFile}.tmp" ];then
+	mv "${configFile}.tmp" "${configFile}"
+fi

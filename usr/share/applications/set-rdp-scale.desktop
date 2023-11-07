@@ -1,0 +1,7 @@
+[Desktop Entry]
+Categories=X-lernstick;
+Exec=/usr/bin/lernstick-rdp-set-scale
+Icon=/usr/share/icons/gnome/48x48/actions/zoom-best-fit.png
+Name=Display Scale RDP
+Name[de]=Anzeige Zoom RDP
+Type=Application

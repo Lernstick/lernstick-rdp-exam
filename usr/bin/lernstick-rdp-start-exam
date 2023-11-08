@@ -41,15 +41,6 @@ evaluateRDPScale(){
 	local uiInfo="/tmp/campla-lernstick-uiinfo.json"
 	local customConfig="/tmp/campla-custom-config.json"
 
-	if [ -f "$customConfig" ];then
-		rdpScaleTmp=$(cat "${customConfig}" | jq -r ".rdp_scale")
-		if [ -n "$rdpScaleTmp" ]; then
-			rdpScale=$rdpSacleTmp
-			echo $rdpScale
-			return
-		fi
-	fi
-
 	if [ -n "$customScale" ]
 	then
 		# user defined rdpScale as command line parameter
@@ -70,6 +61,11 @@ evaluateRDPScale(){
 			rdpScale=$(cat "${uiInfo}" | jq ".rdp_scale" | sed -E 's/(^"|"$)//g')
 		fi
 	fi
+	
+	if [ -f "$customConfig" ];then
+		rdpScale=$(cat "${customConfig}" | jq -r ".rdp_scale")
+	fi
+	
 	echo $rdpScale
 }
 

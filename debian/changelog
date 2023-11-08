@@ -1,3 +1,9 @@
+lernstick-rdp-exam (24) lernstick-12; urgency=medium
+
+  * Added reset to auto method
+
+ -- Thore Sommer <mail@thson.de>  Wed, 08 Nov 2023 17:57:18 +0200
+
 lernstick-rdp-exam (23) lernstick-12; urgency=medium
 
   * Allow custom config of the scale by set scale application

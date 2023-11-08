@@ -1,3 +1,9 @@
+lernstick-rdp-exam (23) lernstick-12; urgency=medium
+
+  * Allow custom config of the scale by set scale application
+
+ -- Thore Sommer <mail@thson.de>  Tue, 07 Nov 2023 18:02:39 +0200
+
 lernstick-rdp-exam (22) lernstick-12; urgency=medium
 
   [ Simon Kaspar ]

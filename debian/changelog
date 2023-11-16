@@ -1,3 +1,10 @@
+lernstick-rdp-exam (25) lernstick-12; urgency=medium
+
+  [ Simon Kaspar ]
+  * Changed location of ui info json
+
+ -- Thore Sommer <mail@thson.de>  Thu, 16 Nov 2023 19:42:40 +0200
+
 lernstick-rdp-exam (24) lernstick-12; urgency=medium
 
   * Added reset to auto method

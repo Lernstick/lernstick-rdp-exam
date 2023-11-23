@@ -38,7 +38,7 @@ evaluateRDPScale(){
 	local screenWidth=0
 	local dpi=0
 	local scale=0
-	local uiInfo="/run/campla-lernstick-uiinfo/current_state.json"
+	local uiInfo="/usr/share/campla-lernstick-uiinfo/current_state.json"
 	local customConfig="/tmp/campla-custom-config.json"
 
 	if [ -n "$customScale" ]

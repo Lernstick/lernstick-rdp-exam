@@ -1,3 +1,10 @@
+lernstick-rdp-exam (26) lernstick-12; urgency=medium
+
+  [ Simon Kaspar ]
+  * Moved uiinfo location
+
+ -- Thore Sommer <mail@thson.de>  Fri, 24 Nov 2023 12:04:25 +0200
+
 lernstick-rdp-exam (25) lernstick-12; urgency=medium
 
   [ Simon Kaspar ]

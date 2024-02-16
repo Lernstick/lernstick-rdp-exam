@@ -30,3 +30,8 @@ open_firewall(){
 }
 open_firewall tcp
 open_firewall udp
+
+if [ -e "/etc/ipsec.conf" ];then
+	systemctl restart ipsec
+	sleep 1
+fi

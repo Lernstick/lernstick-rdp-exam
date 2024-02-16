@@ -17,6 +17,7 @@ fi
 
 # parse config
 SERVER=$(parseJSONKey "$CONFIG" 'vm_server')
+EXAM_TYPE=$(parseJSONKey "$CONFIG" 'exam_type')
 
 # open firewall
 open_firewall(){
@@ -31,7 +32,9 @@ open_firewall(){
 open_firewall tcp
 open_firewall udp
 
-if [ -e "/etc/ipsec.conf" ];then
-	systemctl restart ipsec
-	sleep 1
+if [ "${EXAM_TYPE}" = "vm" ];then
+	if [ -e "/etc/ipsec.conf" ];then
+		systemctl restart ipsec
+		sleep 1
+	fi
 fi
